@@ -5,14 +5,19 @@ import ra.config.InputMethod;
 import ra.config.ShopMessage;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
 public class ProductManagement {
+    public static final List<Product> productList = new ArrayList<>();
+    static {
+         productList.add(new Product(3,"Áo thun", "Đây là áo","Đây là áo",30000,15000,-15000,true)) ;
+         productList.add(new Product(2,"Áo ba lõ", "Đây là áo","Đây là áo",60000,15000,15000,false)) ;
+         productList.add(new Product(7,"Quần thun", "Đây là áo","Đây là áo",66660000,15000,777775000,true)) ;
+         productList.add(new Product(9,"Áo thun", "Đây là quân","Quần đây",30000,15000,8000,true)) ;
+         productList.add(new Product(4,"Áo phông", "Đây là áo","Đây là áo",30007770,15000,-12000,false)) ;
+    }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         byte choice;
         boolean isExit = false;
-        List<Product> productList = new ArrayList<>();
 
         do {
             System.out.println("****************JAVA-HACKATHON-05-BASIC-MENU***************");
@@ -80,14 +85,17 @@ public class ProductManagement {
             System.err.println(ShopMessage.EMTY_LIST);
         } else {
             System.out.println("Nhập tên sản phẩm muốn tìm kiếm :");
-            String searchName = InputMethod.getString();
-            List<Product> filterBySearchKey = productList.stream().filter(product -> product.getProductName().contains(searchName)).toList();
-            if (filterBySearchKey.isEmpty()) {
-                System.err.println(ShopMessage.NAME_NOT_FOUND);
-            } else {
-                System.out.printf("Danh sách tìm kiếm theo từ khòa &s là :\n", searchName);
-                filterBySearchKey.forEach(product -> product.displayData());
-            }
+            do {
+                String searchName = InputMethod.getString().toLowerCase();
+                List<Product> filterBySearchKey = productList.stream().filter(product -> product.getProductName().toLowerCase().contains(searchName)).toList();
+                if (filterBySearchKey.isEmpty()) {
+                    System.err.println(ShopMessage.NAME_NOT_FOUND);
+                } else {
+                    System.out.printf("Danh sách tìm kiếm theo từ khòa &s là :\n", searchName);
+                    filterBySearchKey.forEach(product -> product.displayData());
+                    break;
+                }
+            } while (true);
         }
     }
 
